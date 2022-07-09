@@ -8,5 +8,12 @@ contract snakeContract {
         deposits[msg.sender] = msg.value;
     }
 
-    function returnDeposits(address winner, address looser) external {}
+    function withdrawDeposits(uint256 amount) external {
+        require(deposits[msg.sender] >= amount, "Not enough tokens");
+        payable(msg.sender).transfer(amount);
+    }
+
+    function seeDeposit(address checker) external view returns (uint256) {
+        return deposits[checker];
+    }
 }
