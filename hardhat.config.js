@@ -4,9 +4,11 @@ require("@nomiclabs/hardhat-ethers");
 console.log(process.env.API_URL)
 module.exports = {
   solidity: "0.8.9",
-  defaultNetwork: "polygon",
+  defaultNetwork: "hardhat",
   networks: {
-    hardhat: {},
+    hardhat: {
+      chainId: 31337,
+    },
     polygon: {
       url: process.env.API_URL,
       accounts: [`0x${process.env.PRIVATE_KEY}`]
