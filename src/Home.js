@@ -106,6 +106,7 @@ const Home = () => {
           setWithdrawAmount(e.target.value);
         }}
       />
+      <br></br>
       <input
         type="text"
         placeholder="amount"
@@ -113,6 +114,14 @@ const Home = () => {
           setSendAmount(e.target.value);
         }}
       />
+      <input
+        type="text"
+        placeholder="amount"
+        onChange={(e) => {
+          setSendAmount(e.target.value);
+        }}
+      />
+
       <button
         onClick={() => {
           makeWithdraw(withdrawAmount).then(() => {
