@@ -1,6 +1,30 @@
 import { FiSend } from "react-icons/fi";
+import {
+  connect,
+  getWalletAddress,
+  getGlobalBalance,
+  getVaultBalance,
+  getVaultBalanceOf,
+  makeDeposit,
+  makeWithdraw,
+} from "../scripts/services";
+import { useState, useEffect } from "react";
 
 const Vault = () => {
+  const [vaultBalance, setVaultBalance] = useState("Fetching....");
+  const [amount, setAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [sendAmount, setSendAmount] = useState(0);
+
+  const getBalance = async () => {
+    const balance = await getVaultBalance();
+    setVaultBalance(parseInt(balance) / 10 ** 18);
+  };
+
+  useEffect(() => {
+    getBalance();
+  }, []);
+
   return (
     <div
       style={{
@@ -53,7 +77,7 @@ const Vault = () => {
           alignItems: "center",
         }}
       >
-        <p style={{}}>Value</p>
+        <p>{vaultBalance}</p>
       </div>
       <div
         style={{

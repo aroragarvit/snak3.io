@@ -1,11 +1,26 @@
 import { useState, useEffect } from "react";
-import {
-  connect,
-  getWalletAddress,
-} from "/home/garvit/programming/snake/src/scripts/services";
+import { connect, getWalletAddress, isConnected } from "../scripts/services";
 
 const Navbar = ({ connected, setConnected, message, setMessage }) => {
   const [walletaddress, setwalletaddress] = useState("");
+
+  useEffect(
+    () =>
+      async function () {
+        const isConnected_ = await isConnected();
+        console.log(isConnected_);
+        if (isConnected_) {
+          setConnected(true);
+          getWalletAddress().then((address) => {
+            setwalletaddress(address);
+          });
+        } else {
+          setConnected(false);
+          setMessage("You are disconnected from the Ethereum network");
+        }
+      },
+    []
+  );
 
   return (
     <nav
@@ -32,6 +47,7 @@ const Navbar = ({ connected, setConnected, message, setMessage }) => {
             .then(() => {
               setConnected(true);
               getWalletAddress().then((address) => {
+                setConnected(true);
                 setwalletaddress(address);
               });
             })
@@ -40,7 +56,7 @@ const Navbar = ({ connected, setConnected, message, setMessage }) => {
             });
         }}
       >
-        {connected ? walletaddress : "connect"}
+        {connected ? walletaddress : "Connect"}
       </button>
     </nav>
   );

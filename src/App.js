@@ -1,16 +1,21 @@
-import Home from './Home'
-import Navbar from "./Navbar"
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Home from "./Home";
 function App() {
+  const [connected, setConnected] = useState(false);
+  const [message, setMessage] = useState("");
   return (
-    
     <div className="App">
-      <Navbar></Navbar>
       <div className="content">
-      <Home></Home>
+        <Navbar
+          connected={connected}
+          setConnected={setConnected}
+          message={message}
+          setMessage={setMessage}
+        />
+        {connected && <Home></Home>}
       </div>
-      
     </div>
-     
   );
 }
 

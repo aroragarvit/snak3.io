@@ -1,14 +1,15 @@
 import { ethers } from "ethers";
-import snakeContract from "/home/garvit/programming/snake/src/artifacts/src/contracts/snakeContract.sol/snakeContract.json";
+import snakeContract from "../artifacts/src/contracts/snakeContract.sol/snakeContract.json";
 
 const abi = snakeContract.abi;
 const contractAddress = "0x29fCAe3Ca2f73b38795383Ed8b3A0921BE8ea41D";
 
 async function connect() {
-  if (window.ethereum) {
+  //if (window.ethereum)
+  try {
     await window.ethereum.request({ method: "eth_requestAccounts" });
-  } else {
-    console.log("No metamask"); // check metamask is installed or not and currency is supported or not which currency
+  } catch (err) {
+    throw Error("err");
   }
 }
 
@@ -17,6 +18,19 @@ async function getWalletAddress() {
   const signer = await provider.getSigner();
   const contract = new ethers.Contract(contractAddress, abi, signer);
   return signer.getAddress(); // check things based on we are getting address or not  so we are connected to contract or not and if connected then do things after words make a state for that
+}
+async function isConnected() {
+  if (window.ethereum) {
+    const eth = await window.ethereum;
+    const provider = new ethers.providers.Web3Provider(eth);
+    const signer = await provider.getSigner();
+    try {
+      await signer.getAddress();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }
 
 async function getGlobalBalance() {
@@ -66,4 +80,5 @@ export {
   getVaultBalanceOf,
   makeDeposit,
   makeWithdraw,
+  isConnected,
 };
