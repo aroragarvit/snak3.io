@@ -4,6 +4,12 @@ import { connect, getWalletAddress, isConnected } from "../scripts/services";
 const Navbar = ({ connected, setConnected, message, setMessage }) => {
   const [walletaddress, setwalletaddress] = useState("");
 
+  // event listener for when the user disconnects to the wallet or changes their account
+  window.ethereum.on("accountsChanged", () => {
+    setConnected(false);
+    setMessage("You have been disconnected from the wallet");
+    window.location.reload();
+  });
   useEffect(
     () =>
       async function () {
@@ -49,6 +55,7 @@ const Navbar = ({ connected, setConnected, message, setMessage }) => {
               getWalletAddress().then((address) => {
                 setConnected(true);
                 setwalletaddress(address);
+                setMessage("You have been connected to the wallet");
               });
             })
             .catch((err) => {
