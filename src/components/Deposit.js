@@ -1,8 +1,8 @@
 import Popup from "reactjs-popup";
 import { getVaultBalance, makeDeposit } from "../scripts/services";
 export const Deposit = ({
-  popup,
-  setPopup,
+  popupDeposit,
+  setPopupDeposit,
   depositAmount,
   setDepositAmount,
   getBalance,
@@ -10,11 +10,11 @@ export const Deposit = ({
   return (
     <Popup
       position="center center"
-      open={popup}
+      open={popupDeposit}
       closeOnDocumentClick
       closeOnEscape
       onClose={() => {
-        setPopup(false);
+        setPopupDeposit(false);
       }}
       overlayStyle={{
         backgroundColor: "rgba(0, 0, 0, 0.5)",

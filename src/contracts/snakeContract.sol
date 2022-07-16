@@ -3,7 +3,7 @@ pragma solidity ^0.8.7;
 
 contract snakeContract {
     
-    mapping(address => uint256) public vault;
+    mapping(address => uint256) public vault; // vault is public so anyone is able to see it
 
     event moneyDeposited(address indexed sender, uint256 amount);
     event moneyWithdrawn(address indexed receiver, uint256 amount);

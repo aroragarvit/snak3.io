@@ -71,6 +71,16 @@ async function makeWithdraw(amount) {
   const txn = await contract.withdrawDeposits(ethers.utils.parseEther(amount)); // withdraw more than balance in vault make try catch
   return txn.wait();
 }
+async function sendMoney(address, amount) {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = await provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+  const txn = await contract.sendMoney(
+    address,
+    ethers.utils.parseEther(amount)
+  );
+  return txn.wait();
+}
 
 export {
   connect,
@@ -81,4 +91,5 @@ export {
   makeDeposit,
   makeWithdraw,
   isConnected,
+  sendMoney,
 };

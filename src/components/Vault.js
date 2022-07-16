@@ -1,20 +1,18 @@
 import { FiSend } from "react-icons/fi";
-import {
-  connect,
-  getWalletAddress,
-  getGlobalBalance,
-  getVaultBalance,
-  getVaultBalanceOf,
-  makeDeposit,
-  makeWithdraw,
-} from "../scripts/services";
+import { getVaultBalance } from "../scripts/services";
 import { useState, useEffect } from "react";
+import { Deposit } from "./Deposit";
+import { Withdraw } from "./Withdraw";
+import { Send } from "./Send";
 
 const Vault = () => {
   const [vaultBalance, setVaultBalance] = useState("Fetching....");
-  const [amount, setAmount] = useState(0);
+  const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [sendAmount, setSendAmount] = useState(0);
+  const [popupDeposit, setPopupDeposit] = useState(false);
+  const [popupWithdraw, setPopupWithdraw] = useState(false);
+  const [popupSend, setPopupSend] = useState(false);
 
   const getBalance = async () => {
     const balance = await getVaultBalance();
@@ -36,8 +34,12 @@ const Vault = () => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
     >
+      {/* Vault's Header */}
       <div
         style={{
           backgroundColor: "#FCC5C0",
@@ -64,7 +66,9 @@ const Vault = () => {
             all: "unset",
             cursor: "pointer",
           }}
-          onClick={() => {}}
+          onClick={() => {
+            setPopupSend(true);
+          }}
         >
           <FiSend size={25} />
         </button>
@@ -77,13 +81,18 @@ const Vault = () => {
           alignItems: "center",
         }}
       >
-        <p>{vaultBalance}</p>
+        <p
+          style={{
+            fontSize: "3rem",
+          }}
+        >
+          {vaultBalance}
+        </p>
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          paddingTop: "181.6px",
         }}
       >
         <button
@@ -91,6 +100,10 @@ const Vault = () => {
             width: "100%",
             fontSize: "1.5rem",
             borderRadius: "0px 0px 0px 8px",
+            background: "rgba(232, 160, 191, 1)",
+          }}
+          onClick={() => {
+            setPopupDeposit(true);
           }}
         >
           Deposit
@@ -100,11 +113,36 @@ const Vault = () => {
             width: "100%",
             fontSize: "1.5rem",
             borderRadius: "0px 0px 8px 0px",
+            background: "rgba(232, 160, 191, 1)", // Not able to send background color
+          }}
+          onClick={() => {
+            setPopupWithdraw(true);
           }}
         >
           Withdraw
         </button>
       </div>
+      <Deposit
+        popupDeposit={popupDeposit}
+        setPopupDeposit={setPopupDeposit}
+        depositAmount={depositAmount}
+        setDepositAmount={setDepositAmount}
+        getBalance={getBalance}
+      />
+      <Withdraw
+        popupWithdraw={popupWithdraw}
+        setPopupWithdraw={setPopupWithdraw}
+        withdrawAmount={withdrawAmount}
+        setWithdrawAmount={setWithdrawAmount}
+        getBalance={getBalance}
+      />
+      <Send
+        popupSend={popupSend}
+        setPopupSend={setPopupSend}
+        sendAmount={sendAmount}
+        setSendAmount={setSendAmount}
+        getBalance={getBalance}
+      ></Send>
     </div>
   );
 };
