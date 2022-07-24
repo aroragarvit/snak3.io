@@ -36,6 +36,7 @@ const Navbar = ({ connected, setConnected, message, setMessage }) => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 2rem",
+        height: "7vh",
       }}
     >
       <h1>Snak3</h1>

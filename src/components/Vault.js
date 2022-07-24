@@ -30,13 +30,10 @@ const Vault = () => {
         width: "40rem",
         border: "3px solid black",
         borderRadius: "8px",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        marginTop: "100px   ",
       }}
     >
       {/* Vault's Header */}
