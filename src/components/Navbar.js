@@ -44,7 +44,7 @@ const Navbar = ({ connected, setConnected, message, setMessage }) => {
         style={{
           height: "30px",
           padding: "0 20px",
-          backgroundColor: "#FCC5C0",
+          backgroundColor: "#CBE4F9",
           border: "2px solid black",
           fontSize: "1rem",
           borderStyle: "groove",

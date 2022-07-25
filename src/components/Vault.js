@@ -39,7 +39,7 @@ const Vault = () => {
       {/* Vault's Header */}
       <div
         style={{
-          backgroundColor: "#FCC5C0",
+          backgroundColor: "#EFF9DA",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -97,7 +97,7 @@ const Vault = () => {
             width: "100%",
             fontSize: "1.5rem",
             borderRadius: "0px 0px 0px 8px",
-            background: "rgba(232, 160, 191, 1)",
+            background: "#F9D8D6",
           }}
           onClick={() => {
             setPopupDeposit(true);
@@ -110,7 +110,7 @@ const Vault = () => {
             width: "100%",
             fontSize: "1.5rem",
             borderRadius: "0px 0px 8px 0px",
-            background: "rgba(232, 160, 191, 1)", // Not able to send background color
+            background: "#F9D8D6", // Not able to send background color
           }}
           onClick={() => {
             setPopupWithdraw(true);
