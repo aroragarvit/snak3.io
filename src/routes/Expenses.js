@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
+import Board from "../components/Board";
 import io from "socket.io-client";
-const Expenses = () => {
-  const [gameState1, setGameState1] = useState(false);
 
+const Expenses = () => {
+  const [gameState, setGameState] = useState(false);
   const [joinerKeys, setJoinerKeys] = useState(null);
+  const [number, setNumber] = useState(null);
+
   useEffect(() => {
     const socket = io("http://localhost:3001");
+
+    socket.emit("playGame");
 
     socket.on("secondConnectedToRoom", (data) => {
       // for self joiner
@@ -13,16 +18,19 @@ const Expenses = () => {
       setGameState(true);
     });
 
-    socket.on("playerJoined", (data) => {
+    socket.on("playerJoined", async (data) => {
       // broadcast received to creater  after joiner joins
       console.log(`client Joinded ${data.socketId}`);
       const roomName = data.roomName;
       console.log(roomName);
       setGameState(true);
-      setInterval(async function () {
-        console.log(joinerKeys);
-        await socket.emit("hello", { roomName: roomName, data: joinerKeys });
-      }, 1000);
+
+      await socket.emit("hello", { roomName: roomName, data: number });
+
+      //   setInterval(async function () {
+      //     console.log(joinerKeys);
+      //     await socket.emit("hello", { roomName: roomName, data: joinerKeys });
+      //   }, 1000);
     });
     socket.on("connectToRoom", (data) => {
       // for self creater
@@ -43,15 +51,35 @@ const Expenses = () => {
     socket.on("handleByJoiner", (data) => {
       console.log(data);
     });
-
-    socket.emit("playGame");
   }, []);
 
   document.addEventListener("keydown", (e) => {
     setJoinerKeys(e.key);
-    console.log(joinerKeys);
   });
 
-  return <div>{gameState ? <p> Loaded</p> : <p>loading</p>}</div>;
+  return (
+    <div>
+      {gameState ? (
+        <div>
+          <p> Loaded</p>
+          <div>
+            <button
+              onClick={() => {
+                setNumber(
+                  Math.floor(Math.random() * 10) + //send data
+                    1
+                );
+              }}
+            >
+              Generate
+            </button>
+          </div>
+          <p>{number}</p>
+        </div>
+      ) : (
+        <p>loading</p>
+      )}
+    </div>
+  );
 };
 export default Expenses;
