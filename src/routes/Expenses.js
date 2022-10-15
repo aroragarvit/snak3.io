@@ -6,6 +6,8 @@ const Expenses = () => {
   const [gameState, setGameState] = useState(false);
   const [joinerKeys, setJoinerKeys] = useState(null);
   const [number, setNumber] = useState(null);
+  const [createrSocket, setCreatorSocket] = useState(null);
+  const [senderSocket, setSenderSocket] = useState(null);
 
   useEffect(() => {
     const socket = io("http://localhost:3001");
@@ -15,7 +17,9 @@ const Expenses = () => {
     socket.on("secondConnectedToRoom", (data) => {
       // for self joiner
       console.log(`${data.socketId} joiner connected to room ${data.roomName}`); // game state of joiner it is
+
       setGameState(true);
+      setSenderSocket(socket);
     });
 
     socket.on("playerJoined", async (data) => {
@@ -23,9 +27,9 @@ const Expenses = () => {
       console.log(`client Joinded ${data.socketId}`);
       const roomName = data.roomName;
       console.log(roomName);
-      setGameState(true);
 
-      await socket.emit("hello", { roomName: roomName, data: number });
+      setGameState(true);
+      setCreatorSocket(socket);
 
       //   setInterval(async function () {
       //     console.log(joinerKeys);
@@ -69,6 +73,10 @@ const Expenses = () => {
                   Math.floor(Math.random() * 10) + //send data
                     1
                 );
+                createrSocket.emit("hello", {
+                  roomName: roomName,
+                  data: number,
+                });
               }}
             >
               Generate

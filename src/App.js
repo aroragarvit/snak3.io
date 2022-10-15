@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./Home";
 function App() {
-  const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(false);
   const [message, setMessage] = useState("");
   return (
     <div className="App">
